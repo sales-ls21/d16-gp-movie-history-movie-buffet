@@ -1,5 +1,6 @@
 "use strict";
 let $ = require('jquery'),
+	db = require("./db-interaction"),
 	user = require('./userLogin');
 
 $("#auth-btn").click(function() {
