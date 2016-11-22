@@ -20,35 +20,22 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-        </li>
-      </ul>
-      <form class="navbar-form navbar-left">
         <div class="form-group">
           <input  id="input" type="text" class="form-control" placeholder="Search Movies">
         </div>
-        <button type="button" id="submit" class="btn btn-default">Submit</button>
-      </form>
+       
       <ul class="nav navbar-nav navbar-right">
-        <li id="auth-btn">sign in</li>
-          <li id="logout">logout</li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
-        </li>
+        <a href="#"><li id="auth-btn">sign in</li></a>
+         <a href="#"><li id="logout">logout</li></a>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
+   <ul id="userFeatures" class="nav nav-pills">
+         <li role="presentation"><a href="#">Untracked</a></li>
+         <li role="presentation"><a href="#">Unwatched</a></li>
+         <li role="presentation"><a href="#">Watched</a></li>
+         <li role="presentation"><a href="#">Favorites</a></li>
+    </ul>
 </nav>
     <div class="uiContainer row">
       <section class="uiContainer--wrapper col s9">
