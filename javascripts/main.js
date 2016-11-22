@@ -3,6 +3,7 @@ let $ = require('jquery'),
 	db = require("./db-interaction"),
 	user = require('./userLogin');
 
+
 $("#auth-btn").click(function() {
   console.log("clicked auth");
   user.logInGoogle()
@@ -12,4 +13,10 @@ $("#auth-btn").click(function() {
     $("#auth-btn").hide();
     $("#logout").show();
   });
+});
+
+$('#logout').click(function() {
+  console.log("clicked logout");
+  user.logOut();
+  $('#auth-btn').show();
 });
