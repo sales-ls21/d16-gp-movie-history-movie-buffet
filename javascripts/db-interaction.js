@@ -19,16 +19,19 @@ $("#search").click(function() {getMovies(input.val());});
 
 function getMovies(input) {
 	return new Promise(function(resolve, reject){
-		console.log("TRENT WE LOGGIN");
 		$.ajax({
 			url:`http://www.omdbapi.com/?t=${input}&y=&plot=short&r=json`
 		}).done(function(data){
 			console.log(data);
+			domPop(data);
 			resolve(data);
 		});
 	});
 
 }
 
+function domPop(data){
+	$("#movieWrap").html(`<div class="col-md-4"><h2>${data.name}</h2>`);
+}
 
 module.exports = getMovies;
