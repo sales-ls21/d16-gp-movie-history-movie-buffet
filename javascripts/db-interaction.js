@@ -4,6 +4,9 @@ let $ = require('jquery'),
     firebase = require("./firebaseConfig"),
     input = $("#input"),
     user = require('./userLogin');
+    $("#unwatchedMovie").hide();
+    $("#watchedMovie").hide();
+    $("#favoriteMovie").hide();
 
 input.keyup(function() {
     instantAdd();

@@ -7,7 +7,7 @@
 
 </head>
 <body>
-<div id="pageWrap">
+
   <div class="container">
     <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -32,26 +32,36 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
    <ul id="userFeatures" class="nav nav-pills">
-         <li role="presentation"><a href="#">Untracked</a></li>
-         <li role="presentation"><a href="#">Unwatched</a></li>
-         <li role="presentation"><a href="#">Watched</a></li>
-         <li role="presentation"><a href="#">Favorites</a></li>
+         <li id="main" role="presentation"><a href="#">Untracked</a></li>
+         <li id="unwatched" role="presentation"><a href="#">Unwatched</a></li>
+         <li id="watched" role="presentation"><a href="#">Watched</a></li>
+         <li id="favories" role="presentation"><a href="#">Favorites</a></li>
     </ul>
 </nav>
+<div id="pageWrap">
     <div class="uiContainer row">
       <section class="uiContainer--wrapper col s9">
         <!-- <button id="auth-btn" type="button">Sign in with Google</button> -->
       </section>
     </div>
-  </div>
+  
 
   <div class="container">
-  <div id="movieWrap" class="row">
+    <div id="movieWrap" class="row">
+    <h1>Untracked</h1>
+   </div>
+    <div id="unwatchedMovie">
+    <h1>Unwatched</h1>
+    </div>  
+    <div id="watchedMovie">
+    <h1>Watched</h1>
+    </div>
+    <div id="favoriteMovie">
+    <h1>Favorites</h1>
+    </div>
   </div>
   </div>
-
 </div>
-
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script type='text/javascript' src='dist/app.js'></script>
