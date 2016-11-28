@@ -8,12 +8,11 @@ let $ = require('jquery'),
     $("#watchedMovie").hide();
     $("#favoriteMovie").hide();
 
+//--------------------{ Auto-Search on Keyup Functionality }-----------------------//
 input.keyup(function() {
     instantAdd();
 });
 
-
-//--------------------Function for Auto Complete-----------------------//
 function instantAdd() {
     // console.log('instant add running');
     $("#movieWrap").html("");
@@ -30,7 +29,7 @@ input.keydown(function(e) {
         getMovies(input.val());
     }
 });
-//--------------------API for Movies------------------------//
+//--------------------{ Search for movies w/ User Input }------------------------//
 function getMovies(input) {
     return new Promise(function(resolve, reject) {
         $.ajax({
@@ -42,11 +41,10 @@ function getMovies(input) {
             domPop(data);
         });
     });
-
 }
-//--------------------loop for duplicates------------------------//
+//--------------------{ Send Individual Movie OBJ to actors() }------------------------//
 function domPop(data) {
-  console.log("data search (data)" , data.Search);
+  // console.log("data search (data)" , data.Search);
   for (var i = 0; i < data.Search.length; i++) {
       if (data.Search[i].Type === "movie") {
           actors(data.Search[i].imdbID);
@@ -57,13 +55,13 @@ function domPop(data) {
     }
   }
 
-//--------------------Add to Collection------------------------//
+//--------------------{ Add to Collection BTN }------------------------//
   $(document).on("click", ".adder", function(event){
     if(event.target.className === "adder")
-     searchID(event.target.parentElement.id);
+    searchID(event.target.parentElement.id);
   });
 
-//--------------------API for actor names------------------------//
+//--------------------{ Get Movie by ID - ADDS ACTORS to OBJ }------------------------//
 function actors(movieID){
   $.ajax({
         url: `http://www.omdbapi.com/?i=${movieID}&plot=short&r=json`
@@ -74,7 +72,7 @@ function actors(movieID){
   });
 }
 
-//--------------------Populating Dom with Cards------------------------//
+//--------------------{ Populating Dom with Cards }------------------------//
 function domPopForReal(data) {
 
   if (data.Poster === "N/A") {
@@ -84,18 +82,16 @@ function domPopForReal(data) {
   }
 }
 
-
-
 function searchID(ID) {
-    console.log("searchID ARG", ID);
+    // console.log("searchID ARG", ID);
      $.ajax({
         url: `http://www.omdbapi.com/?i=${ID}&plot=short&r=json`
     }).done(function(data) {
-       console.log("search data", data);
+       // console.log("search data", data);
        addMovies(data);
     });
 }
-//--------------------Checking for User log In------------------------//
+//--------------------{ Checking for User log In }------------------------//
 function addMovies(data){
   // console.log("this one" ,user.getUser());
   if(user.getUser() !== null){
@@ -104,7 +100,7 @@ function addMovies(data){
     alert("Please Register");
   }
 }
-//--------------------Getting Data from API------------------------//
+//--------------------{ Getting Data from API }------------------------//
 function addForReal(data){
   console.log("Add For Real Data" , data);
   data.uid = user.getUser();
@@ -119,6 +115,5 @@ function addForReal(data){
     });
   });
 }
-
 
 module.exports = {getMovies, addMovies};
