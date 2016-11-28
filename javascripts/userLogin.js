@@ -20,6 +20,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 	}
 });
 
+
 function logInGoogle() {
 	console.log("wazzup");
 	return firebase.auth().signInWithPopup(provider);
@@ -29,8 +30,20 @@ function logOut () {
 	return firebase.auth().signOut();
 }
 
+function createUser(data){
+return new Promise(function(resolve, reject){
+    $.ajax({
+      url:`https://movie-buffet.firebaseio.com/movie-buffet.json`,
+      type:'POST',
+      data: JSON.stringify(data),
+      dataType: 'json'
+    }).done(function(data){
+      resolve(data);
+    });
+  });
+}
 function getUser () {
 	return currentUser;
 }
 
-module.exports = {logInGoogle, logOut, getUser};
+module.exports = {logInGoogle, logOut, getUser , createUser};

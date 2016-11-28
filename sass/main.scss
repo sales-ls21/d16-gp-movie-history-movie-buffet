@@ -1,0 +1,41 @@
+#pageWrap{
+	margin-left: 10%;
+	margin-right: 10%;
+	width:80%;
+	height: 1000px;
+	background-color: silver;
+}
+
+.cards{
+	width:157px;
+	height:300px;
+	border:solid black 1px;
+	text-align: center;
+	margin: 0 20px;
+	overflow: scroll;
+}
+
+.poster{
+	max-height: 150px;
+	max-width: 125px;
+	margin-left: auto;
+	margin-top: 15px;
+}
+
+.title{
+	margin-top: -1.5px;
+}
+
+.actors{
+	font-size: .875em;
+	width: 140px;
+}
+
+.year{
+	font-size: .875em;
+	margin-top: -12.5px;
+}
+
+.row{
+	margin: 20px 20px 20px 20px;
+}

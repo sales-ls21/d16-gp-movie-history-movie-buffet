@@ -2,12 +2,15 @@
 
 let $ = require('jquery'),
     firebase = require("./firebaseConfig"),
-    input = $("#input");
+    input = $("#input"),
+    user = require('./userLogin');
 
 input.keyup(function() {
     instantAdd();
 });
 
+
+//--------------------Function for Auto Complete-----------------------//
 function instantAdd() {
     // console.log('instant add running');
     $("#movieWrap").html("");
@@ -24,12 +27,13 @@ input.keydown(function(e) {
         getMovies(input.val());
     }
 });
-
+//--------------------API for Movies------------------------//
 function getMovies(input) {
     return new Promise(function(resolve, reject) {
         $.ajax({
             url: `http://www.omdbapi.com/?s=${input}`
         }).done(function(data) {
+          data.uid = user.getUser();
             resolve(data);
             // console.log("getMovies" , data); //---------------> USEFUL!
             domPop(data);
@@ -37,7 +41,7 @@ function getMovies(input) {
     });
 
 }
-
+//--------------------loop for douplicates------------------------//
 function domPop(data) {
   // var imdb = Math.floor(data.imdbRating / 2);
   // console.log("data" , data.Search);
@@ -51,7 +55,7 @@ function domPop(data) {
       }
     }
   }
-
+//--------------------API for actor names------------------------//
 function actors(movieID){
   $.ajax({
         url: `http://www.omdbapi.com/?i=${movieID}&plot=short&r=json`
@@ -61,13 +65,44 @@ function actors(movieID){
         domPopForReal(data);
   });
 }
-
+//--------------------Populating Dom with Cards------------------------//
 function domPopForReal(data) {
 	if (data.Poster === "N/A") {
 		return;
 	} else {
-      $("#movieWrap").append(`<div class="col-md-4"><img src="${data.Poster}"><h2>${data.Title}</h2><h3>${data.Year}</h3><h3>${data.Actors}</h3><button id="add" type="button">Add to Collection</button></div>`);
+      $("#movieWrap").append(`<div class="col-md-4 cards"><img class="poster" src="${data.Poster}"><h3 class="title">${data.Title}</h3><h3 class="year">${data.Year}</h3><h3 class="actors">${data.Actors}</h3><button class="adder" type="button">Add to Collection</button></div>`);
 	}
+  //--------------------Add to Collection------------------------//
+  $(".adder").click(function(event){
+  console.log("evenet" , this);
+  $(this).hide();
+  addMovies(data);
+});
+}
+//--------------------Checking for User log In------------------------//
+function addMovies(data){
+  console.log("this one" ,user.getUser());
+  if(user.getUser() !== null){
+    addForReal(data);  }
+  else{
+    alert("Please Register");
+  }
+}
+//--------------------Getting Data from API------------------------//
+function addForReal(data){
+  console.log("Data" , data);
+  data.uid = user.getUser();
+  return new Promise(function(resolve, reject){
+    $.ajax({
+      url:`https://movie-buffet.firebaseio.com/movie-buffet.json`,
+      type:'POST',
+      data: JSON.stringify(data),
+      dataType: 'json'
+    }).done(function(data){
+      resolve(data);
+    });
+  });
 }
 
-module.exports = getMovies;
+
+module.exports = {getMovies, addMovies};
