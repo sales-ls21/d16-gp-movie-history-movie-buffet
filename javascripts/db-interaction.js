@@ -95,6 +95,9 @@ function searchID(ID) {
 function addMovies(data){
   // console.log("this one" ,user.getUser());
   if(user.getUser() !== null){
+    data.watched = false;
+    data.userRating = null;
+    // console.log("checking added props", data);
     addForReal(data);  }
   else{
     alert("Please Register");
@@ -116,4 +119,36 @@ function addForReal(data){
   });
 }
 
-module.exports = {getMovies, addMovies};
+//Function to populate unwatched movies
+
+function getUnwatched(){
+  let currentUser = user.getUser();
+  console.log(currentUser);
+  return new Promise(function(resolve, reject){
+    $.ajax({
+      url: `https://movie-buffet.firebaseio.com/movie-buffet.json?orderBy="uid"&equalTo="${currentUser}"`
+    }).done(function(data){
+      resolve(data);
+    });
+  });
+}
+
+function updateMovie(){
+  let rating = event.target.value;
+  let updatedRating = {userRating: rating};
+  let movieID = event.target.parentNode.id;
+  // console.log(rating, movieID);
+
+  return new Promise(function(resolve, reject){
+    $.ajax({
+      url: `https://movie-buffet.firebaseio.com/movie-buffet.json?orderBy="imdbID"&equalTo="${movieID}"`,
+      type: "PUT",
+      data: JSON.stringify(updatedRating)
+    }).done(function(data){
+      resolve();
+    });
+  });
+
+}
+
+module.exports = {getMovies, addMovies, getUnwatched, updateMovie};
