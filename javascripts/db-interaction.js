@@ -3,7 +3,8 @@
 let $ = require('jquery'),
     firebase = require("./firebaseConfig"),
     input = $("#input"),
-    user = require('./userLogin');
+    user = require('./userLogin'),
+    rated = [];
     $("#unwatchedMovie").hide();
     $("#watchedMovie").hide();
     $("#favoriteMovie").hide();
@@ -74,6 +75,7 @@ function actors(movieID){
 
 //--------------------{ Populating Dom with Cards }------------------------//
 function domPopForReal(data) {
+  console.log("data domPop", data);
 
   if (data.Poster === "N/A") {
     return;
@@ -95,7 +97,11 @@ function searchID(ID) {
 function addMovies(data){
   // console.log("this one" ,user.getUser());
   if(user.getUser() !== null){
-    addForReal(data);  }
+    data.watched = false;
+    data.userRating = 0;
+    console.log("Added Movie: ", data.userRating);
+    addForReal(data);
+  }
   else{
     alert("Please Register");
   }
@@ -130,22 +136,48 @@ function getUnwatched(){
   });
 }
 
-function updateMovie(){
-  let rating = event.target.value;
-  let updatedRating = {userRating: rating};
+function updateMovie(id, uRating){
+  let currentUser = user.getUser();
+  let firebaseID = id;
+  let updatedRating = {userRating: uRating, watched: true, firebaseID: firebaseID};
   let movieID = event.target.parentNode.id;
-  // console.log(rating, movieID);
+  console.log("Firebase ID to Update: ", firebaseID);
+  console.log("Rating to Give: ", updatedRating);
+    return new Promise(function(resolve, reject){
+      $.ajax({
+        url: `https://movie-buffet.firebaseio.com/movie-buffet/${firebaseID}.json`,
+        type: "PATCH",
+        data: JSON.stringify(updatedRating)
+      }).done(function(data){
+        resolve(data);
+        console.log("data FIREBASEID", data);
+      });
+    });
+}
 
+// Function for getting Watched movies
+function getWatched(){
+  let currentUser = user.getUser();
+  console.log(currentUser);
   return new Promise(function(resolve, reject){
     $.ajax({
-      url: `https://movie-buffet.firebaseio.com/movie-buffet.json?orderBy="imdbID"&equalTo="${movieID}"`,
-      type: "PUT",
-      data: JSON.stringify(updatedRating)
+    url: `https://movie-buffet.firebaseio.com/movie-buffet.json`,
     }).done(function(data){
+      resolve(data);
+    });
+  });
+}
+
+// Function for Deleting movies from Firebase
+function deleteMovie(movie) {
+  return new Promise(function(resolve, reject) {
+    $.ajax({
+      url: `https://movie-buffet.firebaseio.com/movie-buffet/${movie}.json`,
+      method: 'DELETE'
+    }).done(function() {
       resolve();
     });
   });
-
 }
 
-module.exports = {getMovies, addMovies, getUnwatched, updateMovie};
+module.exports = {getMovies, addMovies, getUnwatched, updateMovie, getWatched, deleteMovie};
